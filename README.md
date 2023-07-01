@@ -1,6 +1,6 @@
 # e_wallet
 
-A new Flutter project.
+A new E-Wallet project.
 
 ## Getting Started
 
