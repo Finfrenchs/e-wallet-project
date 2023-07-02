@@ -109,7 +109,7 @@ class _TopUpPageState extends State<TopUpPage> {
             create: (context) => PaymentMethodBloc()..add(PaymentMethodGet()),
             child: BlocBuilder<PaymentMethodBloc, PaymentMethodState>(
                 builder: (context, state) {
-              if (state is PaymentMethodSucces) {
+              if (state is PaymentMethodSuccess) {
                 return Column(
                   children: state.paymentMethod.map((paymentMethod) {
                     return GestureDetector(

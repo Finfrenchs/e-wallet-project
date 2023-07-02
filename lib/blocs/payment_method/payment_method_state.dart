@@ -19,10 +19,10 @@ class PaymentMethodFailed extends PaymentMethodState {
   List<Object> get props => [e];
 }
 
-class PaymentMethodSucces extends PaymentMethodState {
+class PaymentMethodSuccess extends PaymentMethodState {
   final List<PaymentMethodModel> paymentMethod;
 
-  const PaymentMethodSucces(this.paymentMethod);
+  const PaymentMethodSuccess(this.paymentMethod);
 
   @override
   List<Object> get props => [paymentMethod];
