@@ -22,6 +22,7 @@ class HomeLatestTransactionItem extends StatelessWidget {
             transaction.transactionType!.thumbnail!,
             width: 48,
             //errorBuilder used for handle HTTP request failed, statusCode: 404
+            //this case must be solved
             errorBuilder: (context, error, stackTrace) {
               return Icon(
                 Icons.error,
