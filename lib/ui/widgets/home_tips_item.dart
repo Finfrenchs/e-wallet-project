@@ -1,28 +1,27 @@
+import 'package:e_wallet/models/tip_model.dart';
+import 'package:e_wallet/shared/shared_method.dart';
 import 'package:e_wallet/shared/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class HomeTipsItem extends StatelessWidget {
-  final String imageUrl;
-  final String title;
-  final String url;
+  final TipModel tip;
 
   const HomeTipsItem({
     Key? key,
-    required this.imageUrl,
-    required this.title,
-    required this.url,
+    required this.tip,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () async {
-        Uri itemUrl = Uri.parse(url);
+        Uri itemUrl = Uri.parse(tip.url.toString());
         if (await canLaunchUrl(itemUrl)) {
           launchUrl(itemUrl);
         } else {
-          debugPrint('not valid url'); //i will add snackbar or popup next time
+          showCustomSnackbar(context,
+              'Url not valid.'); //i will add snackbar or popup next time
         }
       },
       child: Container(
@@ -38,8 +37,8 @@ class HomeTipsItem extends StatelessWidget {
               borderRadius: const BorderRadius.vertical(
                 top: Radius.circular(20),
               ),
-              child: Image.asset(
-                imageUrl,
+              child: Image.network(
+                tip.thumbnail.toString(),
                 width: 155,
                 height: 110,
                 fit: BoxFit.cover,
@@ -51,7 +50,7 @@ class HomeTipsItem extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12.0),
               child: Text(
-                title,
+                tip.title.toString(),
                 style: blackTextStyle.copyWith(
                   fontWeight: medium,
                   overflow: TextOverflow.ellipsis,

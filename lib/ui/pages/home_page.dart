@@ -1,4 +1,5 @@
 import 'package:e_wallet/blocs/auth/auth_bloc.dart';
+import 'package:e_wallet/blocs/tip/tip_bloc.dart';
 import 'package:e_wallet/blocs/transaction/transaction_bloc.dart';
 import 'package:e_wallet/blocs/user/user_bloc.dart';
 import 'package:e_wallet/models/transfer_form_model.dart';
@@ -487,32 +488,23 @@ class HomePage extends StatelessWidget {
             height: 14,
           ),
           //untuk membuat tata letak item urut seperti grid dengan menyesuikan lebar layar
-          Center(
-            child: Wrap(
-              spacing: 17.0,
-              runSpacing: 18.0,
-              children: const [
-                HomeTipsItem(
-                  imageUrl: 'assets/img_tips1.png',
-                  title: 'Best tips for using a credit card',
-                  url: 'https://www.google.com',
-                ),
-                HomeTipsItem(
-                  imageUrl: 'assets/img_tips2.png',
-                  title: 'Spot the good pie of finance model',
-                  url: 'https://www.facebook.com',
-                ),
-                HomeTipsItem(
-                  imageUrl: 'assets/img_tips3.png',
-                  title: 'Great hack to get better advices',
-                  url: 'https://www.detik.com',
-                ),
-                HomeTipsItem(
-                  imageUrl: 'assets/img_tips4.png',
-                  title: 'Save more penny buy this instead',
-                  url: 'https://www.youtube.com',
-                ),
-              ],
+          BlocProvider(
+            create: (context) => TipBloc()..add(TipsGet()),
+            child: BlocBuilder<TipBloc, TipState>(
+              builder: (context, state) {
+                if (state is TipSuccess) {
+                  return Wrap(
+                    spacing: 17.0,
+                    runSpacing: 18.0,
+                    children: state.tips.map((tips) {
+                      return HomeTipsItem(tip: tips);
+                    }).toList(),
+                  );
+                }
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              },
             ),
           ),
         ],
