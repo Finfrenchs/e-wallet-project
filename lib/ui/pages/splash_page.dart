@@ -43,8 +43,8 @@ class SplashPage extends StatelessWidget {
         },
         child: Center(
           child: Container(
-            width: 155,
-            height: 50,
+            width: 500,
+            height: 500,
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/img_logo_dark.png'),

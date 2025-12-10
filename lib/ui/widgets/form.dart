@@ -10,14 +10,14 @@ class CustomFormField extends StatelessWidget {
   final Function(String)? onFieldSubmitted;
 
   const CustomFormField({
-    Key? key,
+    super.key,
     required this.title,
     this.obscureText = false,
     this.controller,
     this.isShowTitle = true,
     this.keyboardType,
     this.onFieldSubmitted,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

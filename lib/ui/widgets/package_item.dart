@@ -9,10 +9,10 @@ class PackageItem extends StatelessWidget {
   final bool isSelected;
 
   const PackageItem({
-    Key? key,
+    super.key,
     required this.dataPlan,
     this.isSelected = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

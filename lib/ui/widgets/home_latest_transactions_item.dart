@@ -8,9 +8,9 @@ class HomeLatestTransactionItem extends StatelessWidget {
   final TransactionModel transaction;
 
   const HomeLatestTransactionItem({
-    Key? key,
+    super.key,
     required this.transaction,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

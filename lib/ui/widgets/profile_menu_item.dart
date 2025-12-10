@@ -7,11 +7,11 @@ class ProfileMenuItem extends StatelessWidget {
   final VoidCallback? onTap;
 
   const ProfileMenuItem({
-    Key? key,
+    super.key,
     required this.iconUrl,
     required this.title,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

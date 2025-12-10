@@ -8,10 +8,10 @@ class TransferResultUserItem extends StatelessWidget {
   final bool isSelected;
 
   const TransferResultUserItem({
-    Key? key,
+    super.key,
     required this.user,
     this.isSelected = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

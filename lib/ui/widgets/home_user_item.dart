@@ -6,9 +6,9 @@ class HomeUserItem extends StatelessWidget {
   final UserModel user;
 
   const HomeUserItem({
-    Key? key,
+    super.key,
     required this.user,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

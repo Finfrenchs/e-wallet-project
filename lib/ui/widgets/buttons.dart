@@ -9,12 +9,12 @@ class CustomFilledButton extends StatelessWidget {
   final VoidCallback? onPressed;
 
   const CustomFilledButton({
-    Key? key,
+    super.key,
     required this.title,
     this.width = double.infinity,
     this.height = 50,
     this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -48,12 +48,12 @@ class CustomTextWidgetButton extends StatelessWidget {
   final double height;
   final VoidCallback? onPressed;
   const CustomTextWidgetButton({
-    Key? key,
+    super.key,
     required this.title,
     this.width = double.infinity,
     this.height = 24,
     this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -81,10 +81,10 @@ class CustomInputButton extends StatelessWidget {
   final VoidCallback? onTap;
 
   const CustomInputButton({
-    Key? key,
+    super.key,
     required this.title,
     this.onTap,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

@@ -5,8 +5,7 @@ import 'package:flutter/material.dart';
 class TransferRecentUserItem extends StatelessWidget {
   final UserModel user;
 
-  const TransferRecentUserItem({Key? key, required this.user})
-      : super(key: key);
+  const TransferRecentUserItem({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {

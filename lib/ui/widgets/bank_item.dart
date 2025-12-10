@@ -6,10 +6,10 @@ class BankItem extends StatelessWidget {
   final PaymentMethodModel paymentMethod;
   final bool isSelected;
   const BankItem({
-    Key? key,
+    super.key,
     required this.paymentMethod,
     this.isSelected = false,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

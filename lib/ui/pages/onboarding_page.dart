@@ -1,4 +1,4 @@
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_slider.dart' hide CarouselController;
 import 'package:e_wallet/shared/theme.dart';
 import 'package:e_wallet/ui/widgets/buttons.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +12,7 @@ class OnboardingPage extends StatefulWidget {
 
 class _OnboardingPageState extends State<OnboardingPage> {
   int currentIndex = 0;
-  CarouselController carouselController = CarouselController();
+  CarouselSliderController carouselController = CarouselSliderController();
 
   //save for content onboarding
   List<String> titles = [

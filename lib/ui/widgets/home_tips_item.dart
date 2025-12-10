@@ -8,9 +8,9 @@ class HomeTipsItem extends StatelessWidget {
   final TipModel tip;
 
   const HomeTipsItem({
-    Key? key,
+    super.key,
     required this.tip,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
