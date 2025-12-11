@@ -8,43 +8,74 @@ class SignUpSuccessPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              'Akun Berhasil\nTerdaftar',
-              style: blackTextStyle.copyWith(
-                fontSize: 20,
-                fontWeight: semiBold,
-              ),
-              textAlign: TextAlign.center,
+      body: SafeArea(
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  padding: const EdgeInsets.all(40),
+                  decoration: BoxDecoration(
+                    color: whiteColor,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: blackColor.withOpacity(0.03),
+                        blurRadius: 10,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      Icon(
+                        Icons.check_circle,
+                        color: primaryColor,
+                        size: 80,
+                      ),
+                      const SizedBox(
+                        height: 26,
+                      ),
+                      Text(
+                        'Akun Berhasil\nTerdaftar',
+                        style: blackTextStyle.copyWith(
+                          fontSize: 20,
+                          fontWeight: semiBold,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      Text(
+                        'Grow your finance start\ntogether with us',
+                        style: greyTextStyle.copyWith(
+                          fontSize: 16,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(
+                  height: 50,
+                ),
+                CustomFilledButton(
+                  title: 'Get Satrted',
+                  width: 183,
+                  onPressed: () {
+                    Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      '/home',
+                      (route) => false,
+                    );
+                  },
+                ),
+              ],
             ),
-            const SizedBox(
-              height: 26,
-            ),
-            Text(
-              'Grow your finance start\ntogether with us',
-              style: greyTextStyle.copyWith(
-                fontSize: 16,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(
-              height: 50,
-            ),
-            CustomFilledButton(
-              title: 'Get Satrted',
-              width: 183,
-              onPressed: () {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  '/home',
-                  (route) => false,
-                );
-              },
-            ),
-          ],
+          ),
         ),
       ),
     );

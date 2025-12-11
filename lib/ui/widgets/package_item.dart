@@ -17,8 +17,8 @@ class PackageItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 155,
-      height: 175,
+      width: 140,
+      height: 160,
       padding: const EdgeInsets.symmetric(
         horizontal: 14,
         vertical: 22,

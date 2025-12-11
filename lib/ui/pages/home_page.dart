@@ -5,6 +5,9 @@ import 'package:e_wallet/blocs/user/user_bloc.dart';
 import 'package:e_wallet/models/transfer_form_model.dart';
 import 'package:e_wallet/shared/shared_method.dart';
 import 'package:e_wallet/shared/theme.dart';
+import 'package:e_wallet/ui/pages/history_page.dart';
+import 'package:e_wallet/ui/pages/reward_page.dart';
+import 'package:e_wallet/ui/pages/statistic_page.dart';
 import 'package:e_wallet/ui/pages/transfer_amount_page.dart';
 import 'package:e_wallet/ui/widgets/home_latest_transactions_item.dart';
 import 'package:e_wallet/ui/widgets/home_services.dart';
@@ -13,8 +16,22 @@ import 'package:e_wallet/ui/widgets/home_user_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
   const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  int _selectedIndex = 0;
+
+  final List<Widget> _pages = [
+    const HomeOverviewPage(),
+    const HistoryPage(),
+    const StatisticPage(),
+    const RewardPage(),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -27,19 +44,25 @@ class HomePage extends StatelessWidget {
         notchMargin: 6, //untuk memperlebar lengkungan
         elevation: 0,
         child: BottomNavigationBar(
+          currentIndex: _selectedIndex,
+          onTap: (index) {
+            setState(() {
+              _selectedIndex = index;
+            });
+          },
           type: BottomNavigationBarType
               .fixed, //gunakan untuk merapikan item didalamnya
           elevation: 0,
           backgroundColor: whiteColor,
-          selectedItemColor: blueColor,
-          unselectedItemColor: blackColor,
+          selectedItemColor: primaryColor,
+          unselectedItemColor: greyColor,
           showSelectedLabels: true,
           showUnselectedLabels: true,
-          selectedLabelStyle: blueTextStyle.copyWith(
+          selectedLabelStyle: primaryTextStyle.copyWith(
             fontSize: 10,
             fontWeight: medium,
           ),
-          unselectedLabelStyle: blackTextStyle.copyWith(
+          unselectedLabelStyle: greyTextStyle.copyWith(
             fontSize: 10,
             fontWeight: medium,
           ),
@@ -48,7 +71,7 @@ class HomePage extends StatelessWidget {
               icon: Image.asset(
                 'assets/ic_overview.png',
                 width: 20,
-                color: blueColor,
+                color: _selectedIndex == 0 ? primaryColor : greyColor,
               ),
               label: 'Overview',
             ),
@@ -56,6 +79,7 @@ class HomePage extends StatelessWidget {
               icon: Image.asset(
                 'assets/ic_history.png',
                 width: 20,
+                color: _selectedIndex == 1 ? primaryColor : greyColor,
               ),
               label: 'History',
             ),
@@ -63,6 +87,7 @@ class HomePage extends StatelessWidget {
               icon: Image.asset(
                 'assets/ic_statistic.png',
                 width: 20,
+                color: _selectedIndex == 2 ? primaryColor : greyColor,
               ),
               label: 'Statistic',
             ),
@@ -70,6 +95,7 @@ class HomePage extends StatelessWidget {
               icon: Image.asset(
                 'assets/ic_reward.png',
                 width: 20,
+                color: _selectedIndex == 3 ? primaryColor : greyColor,
               ),
               label: 'Reward',
             ),
@@ -79,19 +105,34 @@ class HomePage extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
-        backgroundColor: purpleColor,
+        backgroundColor: primaryColor,
+        elevation: 4,
         child: Image.asset(
           'assets/ic_plus_circle.png',
           width: 24,
         ),
       ),
-      body: ListView(
+      body: _pages[_selectedIndex],
+    );
+  }
+}
+
+///==================================================
+///HOME OVERVIEW PAGE (Index 0)
+///==================================================
+class HomeOverviewPage extends StatelessWidget {
+  const HomeOverviewPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: ListView(
         padding: const EdgeInsets.symmetric(
           horizontal: 24,
         ),
         children: [
           buildProfile(context),
-          buildWalletCard(),
+          buildWalletCard(context),
           buildLevel(),
           buildServices(context),
           buildLatestTransaction(),
@@ -103,7 +144,7 @@ class HomePage extends StatelessWidget {
   }
 
   //This using widget function but will i upgrade to widget class
-  Widget buildProfile(BuildContext context) {
+  static Widget buildProfile(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         if (state is AuthSuccess) {
@@ -184,68 +225,75 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget buildWalletCard() {
+  static Widget buildWalletCard(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
       builder: (context, state) {
         if (state is AuthSuccess) {
-          return ConstrainedBox(
-            constraints: const BoxConstraints(
-              minHeight: 220,
-              maxHeight: 250,
+          return Container(
+            width: double.infinity,
+            height: 220,
+            padding: const EdgeInsets.all(24),
+            margin: const EdgeInsets.only(
+              top: 30,
             ),
-            child: Container(
-              width: double.infinity,
-              height: MediaQuery.of(context).size.height,
-              padding: const EdgeInsets.all(20),
-              margin: const EdgeInsets.only(
-                top: 30,
-              ),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(28),
-                image: const DecorationImage(
-                  image: AssetImage(
-                    'assets/img_bg_card.png',
-                  ),
-                  fit: BoxFit.cover,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(28),
+              image: DecorationImage(
+                image: AssetImage(
+                  'assets/img_bg_card.png',
                 ),
+                // colorFilter: ColorFilter.mode(
+                //   primaryColor,
+                //   BlendMode.multiply,
+                // ),
+                fit: BoxFit.cover,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    state.user.name.toString(),
-                    style: whiteTextStyle.copyWith(
-                      fontSize: 18,
-                      fontWeight: medium,
-                    ),
+              boxShadow: [
+                BoxShadow(
+                  color: primaryColor.withOpacity(0.15),
+                  blurRadius: 20,
+                  offset: const Offset(0, 8),
+                ),
+              ],
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  state.user.name.toString(),
+                  style: whiteTextStyle.copyWith(
+                    fontSize: 18,
+                    fontWeight: medium,
                   ),
-                  const SizedBox(
-                    height: 28,
+                ),
+                const SizedBox(
+                  height: 25,
+                ),
+                Text(
+                  '**** **** **** **** ${state.user.cardNumber!.substring(12, 16)}',
+                  style: whiteTextStyle.copyWith(
+                    fontSize: 18,
+                    fontWeight: medium,
+                    letterSpacing: 4,
                   ),
-                  Text(
-                    '**** **** **** **** ${state.user.cardNumber!.substring(12, 16)}',
-                    style: whiteTextStyle.copyWith(
-                      fontSize: 18,
-                      fontWeight: medium,
-                      letterSpacing: 4,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 21,
-                  ),
-                  Text(
-                    'Balance',
-                    style: whiteTextStyle,
-                  ),
-                  Text(
+                ),
+                const SizedBox(
+                  height: 18,
+                ),
+                Text(
+                  'Balance',
+                  style: whiteTextStyle,
+                ),
+                Flexible(
+                  child: Text(
                     formatCurrency(state.user.balance ?? 0),
                     style: whiteTextStyle.copyWith(
                       fontSize: 24,
                       fontWeight: semiBold,
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           );
         }
@@ -254,7 +302,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget buildLevel() {
+  static Widget buildLevel() {
     return Container(
       margin: const EdgeInsets.only(
         top: 20,
@@ -263,6 +311,13 @@ class HomePage extends StatelessWidget {
       decoration: BoxDecoration(
         color: whiteColor,
         borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: blackColor.withOpacity(0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
       ),
       child: Column(
         children: [
@@ -277,7 +332,7 @@ class HomePage extends StatelessWidget {
               const Spacer(),
               Text(
                 '55% ',
-                style: greenTextStyle.copyWith(
+                style: primaryTextStyle.copyWith(
                   fontWeight: semiBold,
                 ),
               ),
@@ -298,7 +353,7 @@ class HomePage extends StatelessWidget {
             child: LinearProgressIndicator(
               minHeight: 5,
               value: 0.55,
-              valueColor: AlwaysStoppedAnimation(greenColor),
+              valueColor: AlwaysStoppedAnimation(primaryColor),
               backgroundColor: lightBackgroundColor,
             ),
           ),
@@ -307,7 +362,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget buildServices(BuildContext context) {
+  static Widget buildServices(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(
         top: 30,
@@ -364,7 +419,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget buildLatestTransaction() {
+  static Widget buildLatestTransaction() {
     return Container(
       margin: const EdgeInsets.only(top: 30),
       child: Column(
@@ -386,6 +441,13 @@ class HomePage extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               color: whiteColor,
+              boxShadow: [
+                BoxShadow(
+                  color: blackColor.withOpacity(0.03),
+                  blurRadius: 10,
+                  offset: const Offset(0, 2),
+                ),
+              ],
             ),
             child: BlocProvider(
               create: (context) => TransactionBloc()..add(TransactionGet()),
@@ -411,7 +473,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget buildSendAgain() {
+  static Widget buildSendAgain() {
     return Container(
       margin: const EdgeInsets.only(
         top: 30,
@@ -468,7 +530,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget buildFriendlyTips() {
+  static Widget buildFriendlyTips() {
     return Container(
       margin: const EdgeInsets.only(
         top: 30,
@@ -494,8 +556,9 @@ class HomePage extends StatelessWidget {
               builder: (context, state) {
                 if (state is TipSuccess) {
                   return Wrap(
-                    spacing: 17.0,
-                    runSpacing: 18.0,
+                    spacing: 24.0,
+                    runSpacing: 20.0,
+                    alignment: WrapAlignment.spaceBetween,
                     children: state.tips.map((tips) {
                       return HomeTipsItem(tip: tips);
                     }).toList(),
@@ -521,71 +584,113 @@ class MoreDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     return AlertDialog(
       backgroundColor: Colors.transparent,
-      insetPadding: EdgeInsets.zero,
+      insetPadding: const EdgeInsets.symmetric(horizontal: 0),
       alignment: Alignment.bottomCenter,
       content: Container(
-        height: 326,
-        width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.all(30),
+        width: screenWidth,
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.of(context).size.height * 0.5,
+        ),
+        padding: const EdgeInsets.all(24),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(40),
-          color: lightBackgroundColor,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(40),
+            topRight: Radius.circular(40),
+          ),
+          color: whiteColor,
+          boxShadow: [
+            BoxShadow(
+              color: blackColor.withOpacity(0.1),
+              blurRadius: 20,
+              offset: const Offset(0, -4),
+            ),
+          ],
         ),
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Do More With Us',
-              style: blackTextStyle.copyWith(
-                fontSize: 16,
-                fontWeight: semiBold,
+            // Header with close button
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Do More With Us',
+                  style: blackTextStyle.copyWith(
+                    fontSize: 18,
+                    fontWeight: semiBold,
+                  ),
+                ),
+                Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () => Navigator.pop(context),
+                    borderRadius: BorderRadius.circular(20),
+                    child: Container(
+                      padding: const EdgeInsets.all(4),
+                      child: Icon(
+                        Icons.close,
+                        color: greyColor,
+                        size: 24,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            // Services grid
+            Flexible(
+              child: SingleChildScrollView(
+                child: Center(
+                  child: Wrap(
+                    spacing: (screenWidth - 280) / 4, // Responsive spacing
+                    runSpacing: 24,
+                    alignment: WrapAlignment.center,
+                    children: [
+                      HomeServiceItem(
+                        iconUrl: 'assets/ic_product_data.png',
+                        title: 'Data',
+                        onTap: () {
+                          Navigator.pop(context);
+                          Navigator.pushNamed(context, '/data-provider');
+                        },
+                      ),
+                      HomeServiceItem(
+                        iconUrl: 'assets/ic_product_water.png',
+                        title: 'Water',
+                        onTap: () {},
+                      ),
+                      HomeServiceItem(
+                        iconUrl: 'assets/ic_product_stream.png',
+                        title: 'Stream',
+                        onTap: () {},
+                      ),
+                      HomeServiceItem(
+                        iconUrl: 'assets/ic_product_movie.png',
+                        title: 'Movie',
+                        onTap: () {},
+                      ),
+                      HomeServiceItem(
+                        iconUrl: 'assets/ic_product_food.png',
+                        title: 'Food',
+                        onTap: () {},
+                      ),
+                      HomeServiceItem(
+                        iconUrl: 'assets/ic_product_travel.png',
+                        title: 'Travel',
+                        onTap: () {},
+                      ),
+                    ],
+                  ),
+                ),
               ),
             ),
-            const SizedBox(
-              height: 13,
-            ),
-            Center(
-              child: Wrap(
-                spacing: 45,
-                runSpacing: 28,
-                children: [
-                  HomeServiceItem(
-                    iconUrl: 'assets/ic_product_data.png',
-                    title: 'Data',
-                    onTap: () {
-                      Navigator.pushNamed(context, '/data-provider');
-                    },
-                  ),
-                  HomeServiceItem(
-                    iconUrl: 'assets/ic_product_water.png',
-                    title: 'Water',
-                    onTap: () {},
-                  ),
-                  HomeServiceItem(
-                    iconUrl: 'assets/ic_product_stream.png',
-                    title: 'Stream',
-                    onTap: () {},
-                  ),
-                  HomeServiceItem(
-                    iconUrl: 'assets/ic_product_movie.png',
-                    title: 'Movie',
-                    onTap: () {},
-                  ),
-                  HomeServiceItem(
-                    iconUrl: 'assets/ic_product_food.png',
-                    title: 'Food',
-                    onTap: () {},
-                  ),
-                  HomeServiceItem(
-                    iconUrl: 'assets/ic_product_travel.png',
-                    title: 'Travel',
-                    onTap: () {},
-                  ),
-                ],
-              ),
-            )
+            const SizedBox(height: 8),
           ],
         ),
       ),

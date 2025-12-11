@@ -59,6 +59,9 @@ class _TopUpPageState extends State<TopUpPage> {
                   Image.asset(
                     'assets/img_wallet.png',
                     width: 80,
+                    // color: primaryColor,
+                    // colorBlendMode: BlendMode.multiply,
+                    // fit: BoxFit.cover,
                   ),
                   const SizedBox(
                     width: 16,

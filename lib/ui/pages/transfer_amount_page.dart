@@ -94,7 +94,29 @@ class _TransferAmountPageState extends State<TransferAmountPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: darkBackgroundColor,
+      backgroundColor: lightBackgroundColor,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: Icon(
+            Icons.arrow_back,
+            color: blackColor,
+            size: 24,
+          ),
+        ),
+        title: Text(
+          'Transfer Amount',
+          style: blackTextStyle.copyWith(
+            fontSize: 18,
+            fontWeight: semiBold,
+          ),
+        ),
+        centerTitle: true,
+      ),
       body: BlocProvider(
         create: (context) => TransferBloc(),
         child: BlocConsumer<TransferBloc, TransferState>(
@@ -121,158 +143,172 @@ class _TransferAmountPageState extends State<TransferAmountPage> {
           },
           builder: (context, state) {
             if (state is TransferLoading) {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(primaryColor),
+                ),
               );
             }
 
             return ListView(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 58,
-              ),
+              padding: const EdgeInsets.symmetric(horizontal: 24),
               children: [
-                const SizedBox(
-                  height: 46,
-                ),
-                Center(
-                  child: Text(
-                    'Total Amount',
-                    style: whiteTextStyle.copyWith(
-                      fontSize: 20,
-                      fontWeight: semiBold,
-                    ),
-                  ),
-                ),
-                const SizedBox(
-                  height: 67,
-                ),
-                Align(
-                  child: SizedBox(
-                    width: 200,
-                    child: TextFormField(
-                      controller: amountController,
-                      cursorColor: greyColor,
-                      style: whiteTextStyle.copyWith(
-                        fontSize: 36,
-                        fontWeight: medium,
+                const SizedBox(height: 20),
+                // Recipient Card
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: whiteColor,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: blackColor.withOpacity(0.05),
+                        blurRadius: 20,
+                        offset: const Offset(0, 4),
                       ),
-                      enabled: false,
-                      decoration: InputDecoration(
-                        prefixIcon: Text(
-                          'Rp ',
-                          style: whiteTextStyle.copyWith(
-                            fontSize: 36,
-                            fontWeight: medium,
-                          ),
-                        ),
-                        disabledBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(
-                            color: greyColor,
-                          ),
-                        ),
-                      ),
-                    ),
+                    ],
                   ),
-                ),
-                const SizedBox(
-                  height: 66,
-                ),
-                Center(
-                  child: Wrap(
-                    spacing: 40,
-                    runSpacing: 40,
+                  child: Row(
                     children: [
-                      CustomInputButton(
-                        title: '1',
-                        onTap: () {
-                          addAmount('1');
-                        },
-                      ),
-                      CustomInputButton(
-                        title: '2',
-                        onTap: () {
-                          addAmount('2');
-                        },
-                      ),
-                      CustomInputButton(
-                        title: '3',
-                        onTap: () {
-                          addAmount('3');
-                        },
-                      ),
-                      CustomInputButton(
-                        title: '4',
-                        onTap: () {
-                          addAmount('4');
-                        },
-                      ),
-                      CustomInputButton(
-                        title: '5',
-                        onTap: () {
-                          addAmount('5');
-                        },
-                      ),
-                      CustomInputButton(
-                        title: '6',
-                        onTap: () {
-                          addAmount('6');
-                        },
-                      ),
-                      CustomInputButton(
-                        title: '7',
-                        onTap: () {
-                          addAmount('7');
-                        },
-                      ),
-                      CustomInputButton(
-                        title: '8',
-                        onTap: () {
-                          addAmount('8');
-                        },
-                      ),
-                      CustomInputButton(
-                        title: '9',
-                        onTap: () {
-                          addAmount('9');
-                        },
-                      ),
-                      const SizedBox(
-                        height: 60,
+                      Container(
                         width: 60,
-                      ),
-                      CustomInputButton(
-                        title: '0',
-                        onTap: () {
-                          addAmount('0');
-                        },
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          deleteAmount();
-                        },
-                        child: Container(
-                          width: 60,
-                          height: 60,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: numberBackgoundColor,
+                        height: 60,
+                        decoration: BoxDecoration(
+                          color: primaryColor.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Center(
+                          child: Icon(
+                            Icons.person_outline,
+                            color: primaryColor,
+                            size: 32,
                           ),
-                          child: Center(
-                            child: Icon(
-                              Icons.arrow_back_rounded,
-                              color: whiteColor,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              widget.data.sendTo ?? 'Recipient',
+                              style: blackTextStyle.copyWith(
+                                fontSize: 18,
+                                fontWeight: bold,
+                              ),
                             ),
-                          ),
+                            const SizedBox(height: 4),
+                            Text(
+                              'Transfer to',
+                              style: greyTextStyle.copyWith(
+                                fontSize: 13,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ],
                   ),
                 ),
-                const SizedBox(
-                  height: 50,
+                const SizedBox(height: 40),
+                // Amount Input Section
+                Center(
+                  child: Column(
+                    children: [
+                      Text(
+                        'Enter Amount',
+                        style: greyTextStyle.copyWith(
+                          fontSize: 14,
+                          fontWeight: medium,
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+                      Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 24,
+                          vertical: 20,
+                        ),
+                        decoration: BoxDecoration(
+                          color: whiteColor,
+                          borderRadius: BorderRadius.circular(20),
+                          boxShadow: [
+                            BoxShadow(
+                              color: primaryColor.withOpacity(0.1),
+                              blurRadius: 20,
+                              offset: const Offset(0, 4),
+                            ),
+                          ],
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              'Rp ',
+                              style: primaryTextStyle.copyWith(
+                                fontSize: 32,
+                                fontWeight: bold,
+                              ),
+                            ),
+                            SizedBox(
+                              width: 180,
+                              child: TextFormField(
+                                controller: amountController,
+                                textAlign: TextAlign.center,
+                                style: blackTextStyle.copyWith(
+                                  fontSize: 32,
+                                  fontWeight: bold,
+                                ),
+                                enabled: false,
+                                decoration: const InputDecoration(
+                                  border: InputBorder.none,
+                                  contentPadding: EdgeInsets.zero,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
+                const SizedBox(height: 48),
+                // Number Pad
+                Container(
+                  padding: const EdgeInsets.all(24),
+                  decoration: BoxDecoration(
+                    color: whiteColor,
+                    borderRadius: BorderRadius.circular(24),
+                    boxShadow: [
+                      BoxShadow(
+                        color: blackColor.withOpacity(0.05),
+                        blurRadius: 20,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    children: [
+                      _buildNumberRow(['1', '2', '3']),
+                      const SizedBox(height: 20),
+                      _buildNumberRow(['4', '5', '6']),
+                      const SizedBox(height: 20),
+                      _buildNumberRow(['7', '8', '9']),
+                      const SizedBox(height: 20),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          const SizedBox(width: 70, height: 70),
+                          _buildNumberButton('0'),
+                          _buildDeleteButton(),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 32),
+                // Continue Button
                 CustomFilledButton(
-                  title: 'Continue',
+                  title: 'Continue to Transfer',
                   onPressed: () async {
                     if (await Navigator.pushNamed(context, '/pin') == true) {
                       final authState = context
@@ -295,19 +331,86 @@ class _TransferAmountPageState extends State<TransferAmountPage> {
                     }
                   },
                 ),
-                const SizedBox(
-                  height: 25,
+                const SizedBox(height: 16),
+                Center(
+                  child: TextButton(
+                    onPressed: () {},
+                    child: Text(
+                      'Terms & Conditions',
+                      style: greyTextStyle.copyWith(
+                        fontSize: 14,
+                        fontWeight: medium,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                  ),
                 ),
-                CustomTextWidgetButton(
-                  title: 'Term & Conditions',
-                  onPressed: () {},
-                ),
-                const SizedBox(
-                  height: 40,
-                ),
+                const SizedBox(height: 32),
               ],
             );
           },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildNumberRow(List<String> numbers) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: numbers.map((number) => _buildNumberButton(number)).toList(),
+    );
+  }
+
+  Widget _buildNumberButton(String number) {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: () => addAmount(number),
+        borderRadius: BorderRadius.circular(35),
+        child: Container(
+          width: 70,
+          height: 70,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: greyColor.withOpacity(0.2),
+              width: 1,
+            ),
+          ),
+          child: Center(
+            child: Text(
+              number,
+              style: blackTextStyle.copyWith(
+                fontSize: 24,
+                fontWeight: semiBold,
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDeleteButton() {
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: deleteAmount,
+        borderRadius: BorderRadius.circular(35),
+        child: Container(
+          width: 70,
+          height: 70,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: redColor.withOpacity(0.1),
+          ),
+          child: Center(
+            child: Icon(
+              Icons.backspace_outlined,
+              color: redColor,
+              size: 28,
+            ),
+          ),
         ),
       ),
     );

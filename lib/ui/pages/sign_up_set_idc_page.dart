@@ -35,7 +35,8 @@ class _SignUpSetIdentityCardPageState extends State<SignUpSetIdentityCardPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<AuthBloc, AuthState>(
+      body: SafeArea(
+        child: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is AuthFailed) {
             showCustomSnackbar(context, state.e);
@@ -59,15 +60,16 @@ class _SignUpSetIdentityCardPageState extends State<SignUpSetIdentityCardPage> {
             ),
             children: [
               Container(
-                width: 155,
-                height: 50,
+                width: 200,
+                height: 65,
                 margin: const EdgeInsets.only(
-                  top: 100,
-                  bottom: 100,
+                  top: 60,
+                  bottom: 60,
                 ),
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('assets/img_logo_light.png'),
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),
@@ -86,6 +88,13 @@ class _SignUpSetIdentityCardPageState extends State<SignUpSetIdentityCardPage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: whiteColor,
+                  boxShadow: [
+                    BoxShadow(
+                      color: blackColor.withOpacity(0.03),
+                      blurRadius: 10,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
                 ),
                 child: Column(
                   children: [
@@ -175,6 +184,7 @@ class _SignUpSetIdentityCardPageState extends State<SignUpSetIdentityCardPage> {
             ],
           );
         },
+        ),
       ),
     );
   }

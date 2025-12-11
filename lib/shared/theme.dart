@@ -1,16 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+// Primary Brand Color
+Color primaryColor = const Color(0xff7ebc29);
+
+// Basic Colors
 Color whiteColor = const Color(0xffFFFFFF);
 Color blackColor = const Color(0xff14193F);
 Color greyColor = const Color(0xffA4A8AE);
+
+// Background Colors
 Color lightBackgroundColor = const Color(0xffF6F8FB);
 Color darkBackgroundColor = const Color(0xff020518);
+Color numberBackgoundColor = const Color(0xff1A1D2E);
+
+// Accent Colors
 Color blueColor = const Color(0xff53C1F9);
 Color purpleColor = const Color(0xff5142E6);
 Color greenColor = const Color(0xff22B07D);
-Color numberBackgoundColor = const Color(0xff1A1D2E);
 Color redColor = const Color(0xffFF2566);
+
+TextStyle primaryTextStyle = GoogleFonts.poppins(
+  color: primaryColor,
+);
 
 TextStyle blackTextStyle = GoogleFonts.poppins(
   color: blackColor,

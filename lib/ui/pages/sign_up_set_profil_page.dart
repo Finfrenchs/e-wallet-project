@@ -39,21 +39,23 @@ class _SignUpSetProfilPageState extends State<SignUpSetProfilPage> {
     print(widget.data.toJson());
 
     return Scaffold(
-      body: ListView(
+      body: SafeArea(
+        child: ListView(
         padding: const EdgeInsets.symmetric(
           horizontal: 24,
         ),
         children: [
           Container(
-            width: 155,
-            height: 50,
+            width: 200,
+            height: 65,
             margin: const EdgeInsets.only(
-              top: 100,
-              bottom: 100,
+              top: 60,
+              bottom: 60,
             ),
             decoration: const BoxDecoration(
               image: DecorationImage(
                 image: AssetImage('assets/img_logo_light.png'),
+                fit: BoxFit.contain,
               ),
             ),
           ),
@@ -72,6 +74,13 @@ class _SignUpSetProfilPageState extends State<SignUpSetProfilPage> {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
               color: whiteColor,
+              boxShadow: [
+                BoxShadow(
+                  color: blackColor.withOpacity(0.03),
+                  blurRadius: 10,
+                  offset: const Offset(0, 2),
+                ),
+              ],
             ),
             child: Column(
               children: [
@@ -161,6 +170,7 @@ class _SignUpSetProfilPageState extends State<SignUpSetProfilPage> {
             height: 50,
           ),
         ],
+        ),
       ),
     );
   }

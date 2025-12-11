@@ -81,6 +81,13 @@ class _ProfileEditPageState extends State<ProfileEditPage> {
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(20),
                   color: whiteColor,
+                  boxShadow: [
+                    BoxShadow(
+                      color: blackColor.withOpacity(0.03),
+                      blurRadius: 10,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,

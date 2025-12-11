@@ -19,12 +19,22 @@ class BankItem extends StatelessWidget {
       ),
       padding: const EdgeInsets.all(22),
       decoration: BoxDecoration(
-          color: whiteColor,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            width: 2,
-            color: isSelected ? blueColor : whiteColor,
-          )),
+        color: whiteColor,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          width: 2,
+          color: isSelected ? primaryColor : whiteColor,
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: isSelected
+                ? primaryColor.withOpacity(0.15)
+                : blackColor.withOpacity(0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [

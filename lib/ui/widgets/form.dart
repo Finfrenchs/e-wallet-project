@@ -42,10 +42,25 @@ class CustomFormField extends StatelessWidget {
           onFieldSubmitted: onFieldSubmitted,
           decoration: InputDecoration(
             hintText: !isShowTitle ? title : null,
+            hintStyle: greyTextStyle.copyWith(fontSize: 14),
             border: OutlineInputBorder(
               borderRadius: BorderRadius.circular(14),
+              borderSide: BorderSide(color: greyColor.withOpacity(0.3)),
             ),
-            contentPadding: const EdgeInsets.all(12),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(14),
+              borderSide: BorderSide(color: greyColor.withOpacity(0.3)),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(14),
+              borderSide: BorderSide(color: primaryColor, width: 2),
+            ),
+            filled: true,
+            fillColor: whiteColor,
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 14,
+            ),
           ),
         ),
       ],

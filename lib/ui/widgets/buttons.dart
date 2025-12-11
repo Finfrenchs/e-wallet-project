@@ -24,10 +24,12 @@ class CustomFilledButton extends StatelessWidget {
       child: TextButton(
         onPressed: onPressed,
         style: TextButton.styleFrom(
-          backgroundColor: purpleColor,
+          backgroundColor: primaryColor,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(56),
           ),
+          elevation: 0,
+          shadowColor: primaryColor.withOpacity(0.3),
         ),
         child: Text(
           title,
@@ -88,21 +90,25 @@ class CustomInputButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 60,
-        height: 60,
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: numberBackgoundColor,
-        ),
-        child: Center(
-          child: Text(
-            title,
-            style: whiteTextStyle.copyWith(
-              fontSize: 22,
-              fontWeight: semiBold,
+    return Material(
+      color: Colors.transparent,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(30),
+        child: Container(
+          width: 60,
+          height: 60,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: numberBackgoundColor,
+          ),
+          child: Center(
+            child: Text(
+              title,
+              style: whiteTextStyle.copyWith(
+                fontSize: 22,
+                fontWeight: semiBold,
+              ),
             ),
           ),
         ),

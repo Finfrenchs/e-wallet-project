@@ -33,132 +33,141 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocConsumer<AuthBloc, AuthState>(
-        listener: (context, state) {
-          // TODO: implement listener
+      body: SafeArea(
+        child: BlocConsumer<AuthBloc, AuthState>(
+          listener: (context, state) {
+            // TODO: implement listener
 
-          if (state is AuthFailed) {
-            showCustomSnackbar(context, state.e);
-          }
+            if (state is AuthFailed) {
+              showCustomSnackbar(context, state.e);
+            }
 
-          if (state is AuthCheckEmailSuccess) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => SignUpSetProfilPage(
-                  data: SignUpFormModel(
-                    name: nameController.text,
-                    email: emailController.text,
-                    password: passwordController.text,
+            if (state is AuthCheckEmailSuccess) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => SignUpSetProfilPage(
+                    data: SignUpFormModel(
+                      name: nameController.text,
+                      email: emailController.text,
+                      password: passwordController.text,
+                    ),
                   ),
                 ),
-              ),
-            );
-          }
-        },
-        builder: (context, state) {
-          //animate loading
-          if (state is AuthLoading) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
+              );
+            }
+          },
+          builder: (context, state) {
+            //animate loading
+            if (state is AuthLoading) {
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
+            }
 
-          return ListView(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 24,
-            ),
-            children: [
-              Container(
-                width: 155,
-                height: 50,
-                margin: const EdgeInsets.only(
-                  top: 100,
-                  bottom: 100,
-                ),
-                decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage('assets/img_logo_light.png'),
+            return ListView(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 24,
+              ),
+              children: [
+                Container(
+                  width: 200,
+                  height: 200,
+                  margin: const EdgeInsets.only(
+                    top: 30,
+                  ),
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/img_logo_light.png'),
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
-              ),
-              Text(
-                'Join Us to Unlock\nYour Growth',
-                style: blackTextStyle.copyWith(
-                  fontSize: 20,
-                  fontWeight: semiBold,
+                Text(
+                  'Join Us to Unlock\nYour Growth',
+                  style: blackTextStyle.copyWith(
+                    fontSize: 20,
+                    fontWeight: semiBold,
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              Container(
-                padding: const EdgeInsets.all(22),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: whiteColor,
+                const SizedBox(
+                  height: 30,
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    //NOTE: NAME INPUT
-                    CustomFormField(
-                      title: 'Full Name',
-                      obscureText: false,
-                      controller: nameController,
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    //NOTE: EMAIL INPUT
-                    CustomFormField(
-                      title: 'Email Address',
-                      obscureText: false,
-                      controller: emailController,
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    //NOTE PASSWORD INPUT
-                    CustomFormField(
-                      title: 'Password',
-                      obscureText: true,
-                      controller: passwordController,
-                    ),
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    CustomFilledButton(
-                      title: 'Continue',
-                      onPressed: () {
-                        if (validate()) {
-                          context
-                              .read<AuthBloc>()
-                              .add(AuthCheckEmail(emailController.text));
-                        } else {
-                          showCustomSnackbar(
-                              context, 'Semua field harus diisi.');
-                        }
-                      },
-                    )
-                  ],
+                Container(
+                  padding: const EdgeInsets.all(22),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: whiteColor,
+                    boxShadow: [
+                      BoxShadow(
+                        color: blackColor.withOpacity(0.03),
+                        blurRadius: 10,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      //NOTE: NAME INPUT
+                      CustomFormField(
+                        title: 'Full Name',
+                        obscureText: false,
+                        controller: nameController,
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      //NOTE: EMAIL INPUT
+                      CustomFormField(
+                        title: 'Email Address',
+                        obscureText: false,
+                        controller: emailController,
+                      ),
+                      const SizedBox(
+                        height: 16,
+                      ),
+                      //NOTE PASSWORD INPUT
+                      CustomFormField(
+                        title: 'Password',
+                        obscureText: true,
+                        controller: passwordController,
+                      ),
+                      const SizedBox(
+                        height: 30,
+                      ),
+                      CustomFilledButton(
+                        title: 'Continue',
+                        onPressed: () {
+                          if (validate()) {
+                            context
+                                .read<AuthBloc>()
+                                .add(AuthCheckEmail(emailController.text));
+                          } else {
+                            showCustomSnackbar(
+                                context, 'Semua field harus diisi.');
+                          }
+                        },
+                      )
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(
-                height: 50,
-              ),
-              CustomTextWidgetButton(
-                title: 'Sign In',
-                onPressed: () {
-                  Navigator.pushNamed(context, '/sign-in');
-                },
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-            ],
-          );
-        },
+                const SizedBox(
+                  height: 30,
+                ),
+                CustomTextWidgetButton(
+                  title: 'Sign In',
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/sign-in');
+                  },
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

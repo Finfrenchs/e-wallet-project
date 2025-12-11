@@ -52,15 +52,16 @@ class _SignInPageState extends State<SignInPage> {
             ),
             children: [
               Container(
-                width: 155,
-                height: 50,
+                width: 200,
+                height: 200,
                 margin: const EdgeInsets.only(
-                  top: 100,
-                  bottom: 100,
+                  top: 30,
+                  bottom: 5,
                 ),
                 decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage('assets/img_logo_light.png'),
+                    fit: BoxFit.contain,
                   ),
                 ),
               ),
@@ -133,14 +134,17 @@ class _SignInPageState extends State<SignInPage> {
                 ),
               ),
               const SizedBox(
-                height: 50,
+                height: 30,
               ),
               CustomTextWidgetButton(
                 title: 'Create New Account',
                 onPressed: () {
                   Navigator.pushNamed(context, '/sign-up');
                 },
-              )
+              ),
+              const SizedBox(
+                height: 30,
+              ),
             ],
           );
         },
